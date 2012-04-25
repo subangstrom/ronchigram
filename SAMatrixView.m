@@ -10,7 +10,7 @@
 
 
 @implementation SAMatrixView
-
+//Standard init statement//
 - (id) init
 {
 	self = [super init];
