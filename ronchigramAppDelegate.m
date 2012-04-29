@@ -717,7 +717,9 @@
 	}
 
 }
-
+/**
+ * This changes the style from amorphous to crystaline based on user input. 
+ */
 - (IBAction) changePotentialType: (id) sender{
 	
 	if([sender class] == [NSPopUpButton class]){

@@ -43,7 +43,12 @@
 	return self;
 }
 
-
+/**
+ *This is the constructor of the wavefunction and the aperture. 
+ *@param rows-int representing the number of rows present.
+ *@param columns-int representing the number of colunmns present.
+ *@return self
+ */
 - (id) initWithRows: (int) rows Columns: (int) columns; 
 {
 	self = [super init];
@@ -59,7 +64,9 @@
 	return self;
 }
 
-
+/**
+ * This is the constructor of the probe itself.
+ */
 + (SAProbe*) probeWithAberrations: (NSArray*) newAberrations 
 						 RealSize: (float) rSize 
 					 ApertureSize: (float) apSize 

@@ -174,7 +174,9 @@
 	[self potentialWithAtoms: newAtoms];
 
 }
-
+/**
+ *This method lowers the quality of the display to speed up the program.
+ */
 - (SAPotential *) downScaledVersionBy: (float) scaleFactor{
 	
 	
@@ -190,7 +192,9 @@
 	
 	
 }
-
+/**
+ *This initializes creates a mutable array of atoms and gives each one an x and y point.
+ */
 - (void) orderedPotentialWithSpacingA:(float) a SpacingB: (float) b Z: (int) z{
 	
 	[potential zeroMatrixComplex];
