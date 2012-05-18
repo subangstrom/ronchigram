@@ -64,7 +64,7 @@
 }
 
 - (void) zeroMatrix{
-
+    
 	int i;
 	
 	for (i=0; i<numRows*numColumns; i++) {
@@ -88,13 +88,13 @@
 	
 	
 	// TODO: Implement - if(sizeof(array) == rows*columns){
-
-		for(i = 0; i< numRows; i++){
-			for(j = 0; j < numColumns; j++){
-				[self setMatrixValue:array[(i*numColumns)+j] atI:i atJ:j];
-			}
-		}
-		
+    
+    for(i = 0; i< numRows; i++){
+        for(j = 0; j < numColumns; j++){
+            [self setMatrixValue:array[(i*numColumns)+j] atI:i atJ:j];
+        }
+    }
+    
 	
 	//}
 	
@@ -138,7 +138,7 @@
 	double alpha = 1.0;
 	double beta =1.0;
 	
-
+    
 	cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, numRows, numColumns, [matmul numColumns], alpha, [self matrix], lda, [matmul matrix],ldb, beta, [resultMatrix matrix], ldc);
 	
 	return resultMatrix;
@@ -176,7 +176,7 @@
 			
 			newValue = [self matrixValueAtI:i atJ:j] + [matAdd matrixValueAtI:i atJ:j]; 
 			[resultMatrix setMatrixValue: newValue atI:i atJ:j];
-
+            
 		}
 	}
 	
@@ -190,7 +190,7 @@
 	for(i = 0; i < numRows*numColumns; i++){
 		matrix[i] = matrix[i]*scale;
 	}
-		
+    
 }
 
 
@@ -219,7 +219,7 @@
 				return areEqual;
 			};
 		}
-			
+        
 	}else{
 		areEqual = false;
 	}
@@ -269,7 +269,7 @@
 			maximum = matrix[i];
 		}
 	}
-			
+    
 	return maximum;
 	
 }
@@ -317,15 +317,15 @@
 - (double*) matrix{
 	
 	/* double newMatrix[numRows][numColumns];
-		
-		int i, j;
-		
-		for (i = 0; i< numRows; i++){
-			for (j = 0; j < numColumns; j++)
-			{
-				newMatrix[i][j]= [self matrixValueAtI:i atJ:j];
-			}
-		}
+     
+     int i, j;
+     
+     for (i = 0; i< numRows; i++){
+        for (j = 0; j < numColumns; j++)
+        {
+            newMatrix[i][j]= [self matrixValueAtI:i atJ:j];
+        }
+     }
 	 */	
 	return matrix;
 }

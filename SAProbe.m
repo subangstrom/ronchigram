@@ -26,19 +26,19 @@
 	if (self != nil) {
 		
 		// Setup a default probe so that people do not do stupid shit
-
+        
 		int waveSize = 256;
-				
+        
 		realSize = 74.0;
 		lambda = 0.0197;
 		apertureSize = 10.0;
 		
-
+        
 		wavefunction = [[SAComplexMatrix alloc] initWithRows: waveSize Columns:waveSize];
 		aperture = [[SAComplexMatrix alloc] initWithRows:waveSize Columns:waveSize];
 		
 		fftController = [[SAFFTController alloc] initWithInput:aperture Output:wavefunction];  
-
+        
 	}
 	return self;
 }
@@ -59,7 +59,7 @@
 		
 		fftController = [[SAFFTController alloc] initWithInput:aperture Output:wavefunction];  
 		
-				
+        
 	}
 	return self;
 }
@@ -78,10 +78,10 @@
 	[newProbe setRealSize: rSize];
 	[newProbe setApertureSize: apSize];
 	[newProbe setLambda: wavelength];
-
-							   
+    
+    
 	[newProbe setAberrations:newAberrations];
-	 
+    
 	return newProbe;
 	
 }
@@ -115,27 +115,27 @@
     
     float n, m, Cnma, Cnmb;
 	
-//	NSMutableDictionary *aberration = [[SAAberration alloc] init];
-
+    //	NSMutableDictionary *aberration = [[SAAberration alloc] init];
+    
 	iMid = ceil((double) numRows / (double) 2.00);
 	jMid = ceil((double) numColumns / (double) 2.00);
-
-
+    
+    
 	int numXpix = (int) (round(maxK/(1/realSize)));
 	int numYpix = (int) (round(maxK/(1/realSize)));
 	
-
+    
 	
 	for(i = iMid-numYpix; i < iMid + numYpix; i++){
 		for(j = jMid-numXpix; j < jMid + numXpix; j++){
 			
 			// Need to calculate the aperture as centered, then shift back later  as required for the FFT!
-	
+            
 			k[1] = (1.0f / realSize) * ((double) iMid-i);
 			k[0] = (1.0f / realSize) * ((double) j-jMid);
-				
+            
 			kMag = (k[0])*(k[0])+(k[1])*(k[1]);
-		
+            
 			if(kMag <= maxK2){
 				
 				//phi = sin(k[1]*k[0]);
@@ -149,32 +149,32 @@
 				// For each aberration, calculate the contributions to chi(k)
 				
 				for (SAAberration *aberration in aberrations) {
-					 n = (float) [aberration n];
-					 m = (float) [aberration m];
-					 Cnma = (float) [[aberration Cnma] floatValue] * 10000;
-					 Cnmb = (float)[[aberration Cnmb] floatValue] * 10000;
+                    n = (float) [aberration n];
+                    m = (float) [aberration m];
+                    Cnma = (float) [[aberration Cnma] floatValue] * 10000;
+                    Cnmb = (float)[[aberration Cnmb] floatValue] * 10000;
 					
 					// Sum up terms and calculate the complex value
-
+                    
 					chi = creal( Cnma * cpow(lambda*k[0]-I*lambda*k[1], m)+I*Cnmb*cpow(k[0]*lambda-I*k[1]*lambda, m))*powf(k[0]*k[0]*lambda*lambda+k[1]*k[1]*lambda*lambda, (n-m+1.0) /2.0) / (n + 1.0) + chi;
 				}
-								
+                
 				
 				
 				// Need to avoid cexp issues with cexp(0)!
 				if(k[0] == 0 && k[1] ==0)
 					chi = 0;
-
+                
 				// Calculate aberration function
 				chiExp  = cexp(I * (2 * pi / lambda) * chi);   
 				[aperture setMatrixComplexValue:chiExp atI:i atJ:j];
 				
-			
+                
 			}
 		}
-	
+        
 	}
-					
+    
 	[fftController fftShift:aperture];
 	[fftController reverseTransform];
 	
@@ -201,7 +201,7 @@
 	SAMatrix *intensityDist = [self intensityDistribution];
 	
 	double integratedSum = [intensityDist matrixSum];
-
+    
 	[intensityDist release];
 	
 	
@@ -245,8 +245,8 @@
 	
 }
 
-			
 
-			
+
+
 
 @end

@@ -86,8 +86,8 @@
 
 
 /* Multiply each element of the current matrix with the input matrix elemul
-
-Returns an allocated and initialized result matrix
+ 
+ Returns an allocated and initialized result matrix
  
  */
 
