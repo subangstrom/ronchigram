@@ -17,8 +17,9 @@ double bessi0( double x );
 double bessk0( double x );
 
 @interface SAPotential : NSObject {
-
+    
 	SAComplexMatrix *potential;
+    SAComplexMatrix *subpotential;
 	NSSize realSize;
 	NSArray *atoms;
 	
@@ -26,6 +27,7 @@ double bessk0( double x );
 
 @property (assign) NSArray *atoms;
 @property (assign) SAComplexMatrix *potential;
+@property (assign) SAComplexMatrix *subpotential;
 
 
 //	Method used to create a random potential with a uniform distribution
@@ -34,6 +36,8 @@ double bessk0( double x );
 - (id) initWithPixels: (NSSize) size RealSize: (NSSize) rSize;
 
 - (void) calculatePotential;
+- (void) calculateSubPotential;
+- (void) fillPotentialMatrix;
 
 - (void) randomPotentialWithDensity: (float) density withZ: (int) atomicNumber;
 

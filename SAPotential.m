@@ -13,14 +13,16 @@
 
 @synthesize atoms;
 @synthesize potential;
+@synthesize subpotential;
 
 - (id) init
 {
 	self = [super init];
 	if (self != nil) {
 		potential = [[SAComplexMatrix alloc] initWithRows:512 Columns:512];
+        subpotential = [[SAComplexMatrix alloc] initWithRows:11 Columns:11];
 		atoms = [[NSMutableArray alloc] init];
-							  
+        
 	}
 	return self;
 }
@@ -29,13 +31,13 @@
 	
 	if (self != nil) {
 		potential = [[SAComplexMatrix alloc] initWithRows:size.height Columns:size.width];
+        subpotential = [[SAComplexMatrix alloc] initWithRows:11 Columns:11];
 		realSize = rSize;
 		atoms = [[NSMutableArray alloc] init];
-
+        
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(calculatePotential) name:kSAMatrixDidChangeNotification object:potential];
-
-
+        
 	}
 	return self;
 }
@@ -52,7 +54,8 @@
 	
 	[inputAtoms release];
 	
-	[self calculatePotential];
+	//[self calculatePotential];
+    [self calculateSubPotential];
 	
 }
 
@@ -90,7 +93,7 @@
 	
 	NSDictionary *atom;
 	int atomicNumber;
-
+    
 	
 	for (k = 0; k < numPots; k++) {
 		
@@ -99,7 +102,7 @@
 		
 		potCenter.x = [[atom objectForKey:kSAPotCenterX] floatValue];
 		potCenter.y = [[atom objectForKey:kSAPotCenterY] floatValue];
-
+        
 		
 		centerJ = floor(potCenter.x*pixSizeX);
 		centerI = floor(potCenter.y*pixSizeY);
@@ -129,25 +132,64 @@
 			}
 		}
 	}
-	
-	
 }
-
+- (void) calculateSubPotential{
+   	
+    
+	[subpotential zeroMatrixComplex];
+    [potential zeroMatrixComplex];
+	
+	float numPixX = [potential numColumns];
+	float numPixY = [potential numRows]; 
+	double oldValue, newValue;
+    
+	// Center float points
+	
+	NSPoint potCalcPoint;
+	
+	// Pixels size and range to cover
+	
+	float pixSizeX = numPixX/realSize.width;
+	float pixSizeY = numPixY/realSize.height;
+	
+	float pixCalcRangeX = [subpotential numRows];
+	float pixCalcRangeY = [subpotential numColumns];
+	
+	// generic counters
+	int i,j;
+	
+	int atomicNumber;
+    
+    atomicNumber = 6;
+    
+    for (i = 0; i < [subpotential numColumns]; i++){
+        
+        
+        for (j = 0; j < [subpotential numRows]; j++){
+            
+            
+            potCalcPoint.x = ((float) (j - pixCalcRangeX/2)) / pixSizeX; 
+            potCalcPoint.y = ((float) (i - pixCalcRangeY/2)) / pixSizeY; 
+            
+            oldValue = 	[subpotential maxtrixRealValueAtI: i  atJ: j];
+            newValue = [self projectedPotentialForZ:atomicNumber atPoint: potCalcPoint];
+            
+            [subpotential setMatrixRealValue: (oldValue+newValue) atI: i  atJ:j];
+        }
+    }
+    [self fillPotentialMatrix];			
+}
 - (void) randomPotentialWithDensity: (float) density withZ: (int) atomicNumber{
 	
 	int numPots = roundf(density*realSize.width*realSize.height);
 	
 	[potential zeroMatrixComplex];
-	
-			   
+    
 	// Center float points
-
+    
 	NSPoint potCenter;
-
+    
 	// Float off center
-	
-	
-
 	
 	int k;
 	
@@ -161,18 +203,17 @@
 		potCenter.y = ((float) (arc4random() % 10000)) / 10000.0 * realSize.height;
 		
 		newAtom = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithFloat: potCenter.x], kSAPotCenterX, 
-								 [NSNumber numberWithFloat: potCenter.y],kSAPotCenterY,
-								 [NSNumber numberWithInt:6], kSAAtomicNumber, nil]; 
+                   [NSNumber numberWithFloat: potCenter.y],kSAPotCenterY,
+                   [NSNumber numberWithInt:6], kSAAtomicNumber, nil]; 
 		
 		[newAtoms addObject:newAtom]; 
 		
 		[newAtom release];
-		
-
+        
 	}
 	
 	[self potentialWithAtoms: newAtoms];
-
+    
 }
 /**
  *This method lowers the quality of the display to speed up the program.
@@ -189,8 +230,6 @@
 	
 	return scaledPot;
 	
-	
-	
 }
 /**
  *This initializes creates a mutable array of atoms and gives each one an x and y point.
@@ -198,12 +237,12 @@
 - (void) orderedPotentialWithSpacingA:(float) a SpacingB: (float) b Z: (int) z{
 	
 	[potential zeroMatrixComplex];
-
+    
 	int numA = round(realSize.width/a);
 	int numB = round(realSize.height/b);
 	
 	int i,j;
-		
+    
 	NSPoint potCenter;
 	
 	
@@ -212,9 +251,8 @@
 	NSMutableArray *newAtoms = [[NSMutableArray alloc] init]; 
 	
 	for (i = 0; i <= numB; i++) {
-	
+        
 		for (j = 0; j <= numA; j++) {
-			
 			
 			potCenter.x = a*j;
 			potCenter.y = b*i;
@@ -231,9 +269,51 @@
 	}
 	
 	[self potentialWithAtoms: newAtoms];
-
+    
 }
-
+- (void) fillPotentialMatrix{
+    
+    int numPixX = [subpotential numColumns];
+	int numPixY = [subpotential numRows];
+    int k;
+    int numPots = [atoms count];
+    
+    
+    NSPoint potCenter = potCenter, potCorner;
+    
+    for (k=0; k<numPots; k++) {
+        NSDictionary *atom;
+        atom = [atoms objectAtIndex:k];
+        
+        potCenter.x = [[atom objectForKey:kSAPotCenterX] floatValue];
+		potCenter.y = [[atom objectForKey:kSAPotCenterY] floatValue];
+        
+        float pixSizeX = [potential numColumns]/realSize.width;
+        float pixSizeY = [potential numRows]/realSize.height;
+        
+        potCenter.x=floorf(potCenter.x * pixSizeX)-1;
+        potCenter.y=floorf(potCenter.y * pixSizeY)-1;
+        
+        potCorner.x=round(potCenter.x-(numPixX/2));
+        potCorner.y=round(potCenter.y-(numPixY/2));
+        
+        int maxXValue=[subpotential numColumns], maxYValue=[subpotential numRows];
+        
+        for (int i=0; i<maxXValue; i++) {
+            
+            for (int j=0; j<maxYValue; j++) {
+                
+                if (potCorner.x+i > ([potential numColumns]-1) || potCorner.x+i< 0)
+                    continue;
+                if(potCorner.y+j > ([potential numRows]-1) || potCorner.y+j< 0)
+                    continue;
+                
+                double oldValue=[potential maxtrixRealValueAtI: (potCorner.x+i)  atJ: (potCorner.y+j)];
+                [potential setMatrixRealValue:(oldValue+[subpotential maxtrixRealValueAtI: (i) atJ: (j)]) atI:(potCorner.x+i) atJ:(potCorner.y+j)];
+            }
+        }
+    }
+}
 - (double) projectedPotentialForZ: (int) atomicNumber atPoint: (NSPoint) point{
 	
 	
@@ -291,6 +371,7 @@
 - (void) dealloc
 {
 	[potential release];
+    [subpotential release];
 	[super dealloc];
 }
 
@@ -324,8 +405,7 @@ double calculateK0(double x){
  
  12-feb-1997 E. Kirkland
  */
-double bessi0( double x )
-{
+double bessi0( double x ) {
     int i;
     double ax, sum, t;
     
@@ -366,8 +446,7 @@ double bessi0( double x )
  
  12-feb-1997 E. Kirkland
  */
-double bessk0( double x )
-{
+double bessk0( double x ){
     double bessi0(double);
 	
     int i;

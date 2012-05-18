@@ -51,7 +51,7 @@
 	
 	isAmorphous = YES;
 	isSliding = NO;
-
+    
 	
 	[self prepareProbe];
 	[self preparePotential];
@@ -76,7 +76,7 @@
                     NSContinuouslyUpdatesValueBindingOption,
 					[NSNumber numberWithBool:YES],
 					NSRaisesForNotApplicableKeysBindingOption,nil];
-
+    
 	[textCellOpts retain];
 	
 	NSTableColumn *columnA = [aberrationTable tableColumnWithIdentifier:@"aCoeff"];
@@ -94,11 +94,11 @@
  
  
  Calculate potential for high resolution and do bilinear/bicubic interpolation
-
-
+ 
+ 
  */
 
- 
+
 - (void) calculateRonchigram{
 	
 	SAComplexMatrix *wavefunction;
@@ -123,7 +123,7 @@
 		//prdController = hrFFTController;
 		
 	}
-		
+    
 	[wavefunction retain];
 	[specimen retain];
 	
@@ -132,15 +132,15 @@
 	[fftController forwardTransform];
 	[fftController fftShift:ronchigram];
 	
-//	[probePotPrd release];
+    //	[probePotPrd release];
 	[wavefunction release];
 	[specimen release];
-//	[prdController release];
+    //	[prdController release];
 	
 }
 
 - (void) prepareProbe{
-
+    
 	
     // Zeroth order aberrations
     SAAberration *beamshift = [SAAberration aberrationWithN:0 M:1 Cnma:0 Cnmb:0];
@@ -159,7 +159,7 @@
     NSMutableAttributedString *thirdsphericalHaider = [[NSMutableAttributedString alloc] initWithString:@"C3"];
     SAAberration *thirdstar = [SAAberration aberrationWithN:3 M:2 Cnma:0 Cnmb:0];
     NSMutableAttributedString *thirdstarHaider = [[NSMutableAttributedString alloc] initWithString:@"S3"];
-
+    
     SAAberration *fourfold = [SAAberration aberrationWithN:3 M:4 Cnma:0 Cnmb:0];
     
     
@@ -186,7 +186,7 @@
     SAAberration *seventhrosette = [SAAberration aberrationWithN:7 M:4 Cnma:0 Cnmb:0];
     SAAberration *seventhchaplet = [SAAberration aberrationWithN:7 M:6 Cnma:0 Cnmb:0];
     SAAberration *eightfold = [SAAberration aberrationWithN:7 M:8 Cnma:0 Cnmb:0];
-
+    
     
     NSMutableDictionary *aberrationsDict = [[NSMutableDictionary alloc] init];
     
@@ -213,16 +213,16 @@
     
     
     NSMutableDictionary *haiderLabels = [[NSMutableDictionary alloc] init];
-                                                                              
+    
     NSDictionary *stringAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica" size:10], NSFontAttributeName,[NSNumber numberWithInt:-1], NSSuperscriptAttributeName,[NSNumber numberWithFloat:3], NSBaselineOffsetAttributeName, nil];
-                                         
+    
 	
 	defocus.label = @"Defocus";
 	
 	[cs setMin:0 Max:3E7];
 	cs.symRange = NO;
 	cs.label = @"Third order spherical";
-   
+    
     NSRange labelRange;
     labelRange.length = 1;
     labelRange.location = 1;
@@ -231,8 +231,8 @@
     krivRange.length = 3;
     krivRange.location = 1;
     
-
-
+    
+    
     float rangeScaling = 0.1;
     float maxMin;
     
@@ -252,35 +252,35 @@
         [ab setHaiderLabel:haid];
         [ab setKrivanekLabel:kriv];
     }
-
+    
     [defocus setMin:-.05 Max:.05];
-
+    
     
     //[thirdsphericalHaider setAttributes:stringAttributes range:labelRange];
     //[defocusHaider setAttributes:stringAttributes range:labelRange];
-
+    
     
     //NSMutableAttributedString *c3Label = [sphericalLetter copy];
     
     //[c3Label appendAttributedString:order3];
     //[c3Label setAttributes:stringAttributes range:labelRange];
-
+    
     //defocus.haiderLetter = [haiderLabels objectForKey:@"c1"];
     //cs.haiderLetter = thirdsphericalHaider;
     //twoFold.haiderLetter = twofoldHaider;
     
     
-
-
-   // fifthspherical.letter = [spherical stringByAppendingString:[NSString stringWithFormat: @"%d", fifthspherical.n ]];
+    
+    
+    // fifthspherical.letter = [spherical stringByAppendingString:[NSString stringWithFormat: @"%d", fifthspherical.n ]];
 	
 	//[twoFold setMin:-2000 Max:2000];
 	twoFold.label = @"2 fold astigmatism";
 	
 	//[threeFold setMin:-5000 Max:5000];
-
+    
 	threeFold.label = @"3 fold astigmatism";
-
+    
 	//[coma setMin:-50 Max:50];
 	coma.label = @"Coma";
 	
@@ -290,7 +290,7 @@
     
     [abController addObject:threeFold];
     [abController addObject:coma];
-
+    
 	[abController addObject:cs];
     [abController addObject:thirdstar];
     [abController addObject:fourfold];
@@ -298,7 +298,7 @@
     [abController addObject:fourthcoma];
     [abController addObject:fourththreelobe];
     [abController addObject:fivefold];
-
+    
     [abController addObject:fifthspherical];
     [abController addObject:fifthstar];
     [abController addObject:fifthrosette];
@@ -324,11 +324,11 @@
 	[apSize setFloatValue:25];	
     
     probe = [SAProbe probeWithAberrations:abs RealSize:realSize.width ApertureSize:[apSize floatValue] Lambda:.0197 Pixels: pixels];
-
+    
 	
 }
 
-					   
+
 - (void) preparePotential{
 	
 	// Setup a potential to form the ronchigram - only needs updating in the case of 
@@ -373,7 +373,7 @@
 	int i;
 	
 	short *matrix = (short*) calloc(numRows*numColumns, sizeof(short));
-
+    
 	for(i = 0; i < arraySize; i++){
 		matrix[i] = (short)(([matrixToImage valueAtArrayIndex:i] - minValue)/(maxValue - minValue)*65535.0);
 	}
@@ -382,17 +382,16 @@
 	
 	CGDataProviderRef theProvider = CGDataProviderCreateWithData(NULL,  matrix, numBytes, NULL);
 	CGImageRef matrixImage = CGImageCreate([matrixToImage numColumns], 
-							[matrixToImage numRows], 
-							16, 
-							16, 
-							sizeof(short)*[matrixToImage numColumns], 
-							colorSpace, 
-							kCGBitmapByteOrder16Host,
-							theProvider, 
-							NULL,
-							true, 
-							kCGRenderingIntentDefault);
-	
+                                           [matrixToImage numRows], 
+                                           16, 
+                                           16, 
+                                           sizeof(short)*[matrixToImage numColumns], 
+                                           colorSpace, 
+                                           kCGBitmapByteOrder16Host,
+                                           theProvider, 
+                                           NULL,
+                                           true, 
+                                           kCGRenderingIntentDefault);
 	
 	[matrixToImage release];
 	
@@ -412,7 +411,7 @@
 	
 	
 	[saView setImageWithCGImageRef:matrixImage];
-
+    
 	[CATransaction commit];	
 	
 	CGImageRelease(matrixImage);
@@ -441,10 +440,10 @@
 	
 	switch (selected) {
 		case 0:
-
+            
 			[probe calculateProbe];
 			[self calculateRonchigram];
-
+            
 			conjMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:ronchigram];
 			newComplexMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:ronchigram];
 			
@@ -453,9 +452,10 @@
 			// Intensity distribution 
 			[conjMatrix elementMultiplyWith:ronchigram Result:newComplexMatrix];
 			newViewMatrix = [newComplexMatrix realPart];
+			//newViewMatrix = [[hrPotential potential] realPart];
 			
 			break;
-
+            
 		case 1:
 			
 			if(isSliding == YES){
@@ -493,9 +493,9 @@
 			}
 			
 			[probe calculateProbe];
-
+            
 			ap = [probe aperture];	
-
+            
 			conjMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:ap];
 			newComplexMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:ap];
 			
@@ -504,16 +504,16 @@
 			newViewMatrix = [ap realPart];
 			
 			[fftController fftShift:ap];
-				
+            
 			break;
 			
 		default:
 			break;
-
+            
 	}
 	
 	[self reloadViewWithMatrix:newViewMatrix];
-
+    
 	[newComplexMatrix release];
 	[conjMatrix release];
 	[newViewMatrix release];
@@ -537,11 +537,15 @@
 		ab.Cnmb=0;
 	}
 	[probe setAberrations:[abController arrangedObjects]];
-
+    
 	[self viewNeedsUpdate:nil];
 	
 }
-
+/*
+ *also recalculates the potential.
+ *called by the max Sampeling pixels drop box.
+ *
+ */
 - (IBAction) changeResolution: (id) sender{
 	
 	NSInteger selected = [[sender selectedItem] tag];
@@ -549,11 +553,11 @@
 	int newSqSize;
 	
 	switch (selected) {
-		
+            
 		case 0:
 			newSqSize = 256;			
 			break;
-
+            
 		case 1:
 			newSqSize= 512;
 			break;
@@ -576,7 +580,7 @@
 	SAComplexMatrix *potMatrix = [hrPotential potential];
 	[potMatrix resizeToI:hrPixels.height byJ:hrPixels.width];
 	
-
+    
 	[hrPotential setRealSize:hrRealSize];
 	
 	if(isAmorphous){
@@ -584,7 +588,7 @@
 	}else{
 		[hrPotential orderedPotentialWithSpacingA:2 SpacingB:2 Z:6]; 
 	}
-			
+    
 	[self viewNeedsUpdate:nil];
 	
 	
@@ -601,7 +605,7 @@
 		SAAberration * ab = [selected objectAtIndex:i];
 		ab.label= [sender stringValue];
 	}
-
+    
 	//[probe setAberrations:[abController arrangedObjects]];	
 }
 
@@ -609,7 +613,7 @@
 - (IBAction) changeAberration:(id) sender{
 	
 	NSInteger selected;
-
+    
 	if([sender isKindOfClass:[NSSegmentedControl class]]){
 		
 		selected = [sender selectedSegment];
@@ -618,26 +622,26 @@
 			case 0:
 				[abController add:nil];
 				[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-
+                
 				break;
 			case 1:
 				[abController remove:nil];
 				[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-
+                
 				break;
 		}
 		
 	}
 	
 	isSliding = YES;
-
+    
 	[self viewNeedsUpdate:nil];
 	
 	SEL sel = @selector( sliderDone: );
 	[NSObject cancelPreviousPerformRequestsWithTarget: self selector:
 	 sel object: sender];
 	[self performSelector: sel withObject: sender afterDelay: 0.0];
-
+    
     [aberrationTable reloadData];
 	
 }
@@ -659,10 +663,10 @@
 		
 		if ([sender tag] ==0) {
 			selectedAb.max= [sender floatValue] * (-1);
-
+            
 		}else{
 			selectedAb.min = [sender floatValue]* (-1);
-
+            
 		}
 		
 	}
@@ -699,23 +703,23 @@
 	[probe setApertureSize:[sender floatValue]];
 	
 	[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-
+    
 	
 }
-
+//Changes the sample area.
 - (IBAction) changeRealViewSize: (id) sender{
 	
 	if(realSize.width != [sender floatValue]){
-
+        
 		realSize = NSMakeSize([sender floatValue], [sender floatValue]);
 		hrRealSize = NSMakeSize([sender floatValue]*2.0, [sender floatValue]*2.0);	
 		
 		[self preparePotential];
-
+        
 		[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-
+        
 	}
-
+    
 }
 /**
  * This changes the style from amorphous to crystaline based on user input. 
@@ -727,11 +731,11 @@
 		if([sender indexOfSelectedItem]==0 && isAmorphous == NO){
 			isAmorphous = YES;
 			[self preparePotential];
-
+            
 		}else if([sender indexOfSelectedItem] ==1 && isAmorphous == YES) {
 			isAmorphous = NO;
 			[self preparePotential];
-
+            
 		}
 		
 		[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
@@ -758,7 +762,7 @@
     
     if ([current isEqualToString:@"arrangedObjects.krivanekLabel"]) {
         [notationColumn bind:@"value" toObject:abController withKeyPath:@"arrangedObjects.haiderLabel" options:nil];
-         [aCoeffColumn bind:@"value" toObject:abController withKeyPath:@"arrangedObjects.mag" options:textCellOpts];
+        [aCoeffColumn bind:@"value" toObject:abController withKeyPath:@"arrangedObjects.mag" options:textCellOpts];
         [bCoeffColumn bind:@"value" toObject:abController withKeyPath:@"arrangedObjects.angle" options:textCellOpts];
         [[notationColumn headerCell] setStringValue:@"Haider"];
         [[aCoeffColumn headerCell] setStringValue:@"C (µm)"];
@@ -772,12 +776,10 @@
         [[notationColumn headerCell] setStringValue:@"Krivanek"];
         [[aCoeffColumn headerCell] setStringValue:@"Ca (µm)"];
         [[bCoeffColumn headerCell] setStringValue:@"Cb (µm)"];
-
+        
     }
     
     [aberrationTable reloadData];
-
-    
     
 }
 
