@@ -50,4 +50,7 @@ double bessk0( double x );
 - (SAComplexMatrix*) potential;
 - (void) setRealSize:(NSSize) size;
 
+/*Test*/
+
+
 @end
