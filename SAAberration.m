@@ -39,8 +39,8 @@
 		min = -10000;
 		label = @"Unspecified";
 		symRange = YES;
-				 
-			 
+        
+        
 		aberrDict = [[NSMutableDictionary alloc] init];
 	}
 	return self;
@@ -59,27 +59,27 @@
 	newAberration.Cnma = [NSNumber numberWithFloat:cnmaVal];
 	newAberration.Cnmb = [NSNumber numberWithFloat:cnmbVal];
 	
-	 
+    
 	return newAberration;
 }
 
 /*- (NSNumber *) angle{
-        
-    float fcnma, fcnmb;
-    float angle;
-    
-    fcnma = [Cnma floatValue];
-    fcnmb = [Cnmb floatValue];
-    
-    if (fcnma == 0){
-        angle = 0;
-    }
-    else
-        angle = atanf(fcnmb/fcnma);
-    
-    return [NSNumber numberWithFloat:angle*180/pi];
-    
-}*/
+ 
+ float fcnma, fcnmb;
+ float angle;
+ 
+ fcnma = [Cnma floatValue];
+ fcnmb = [Cnmb floatValue];
+ 
+ if (fcnma == 0){
+ angle = 0;
+ }
+ else
+ angle = atanf(fcnmb/fcnma);
+ 
+ return [NSNumber numberWithFloat:angle*180/pi];
+ 
+ }*/
 
 - (void) setCnma:(NSNumber *)nCnma{
     
@@ -87,7 +87,7 @@
     [Cnma retain];
     
     float fcnma, fcnmb;
-
+    
     
     fcnma = [Cnma floatValue];
     fcnmb = [Cnmb floatValue];
@@ -102,7 +102,7 @@
         angle = [NSNumber numberWithFloat:atanf(fcnmb/fcnma)*180/pi];
     
     [angle retain]; 
-
+    
 }
 
 - (void) setCnmb:(NSNumber *)nCnmb{
@@ -123,64 +123,64 @@
         angle = [NSNumber numberWithFloat:atanf(fcnmb/fcnma)*180/pi];
     
     [angle retain]; 
-
+    
     
     Cnmb = nCnmb;
     [Cnmb retain];
     
-
-
+    
+    
 }
 
 /*- (NSNumber *) magnitude{
-    
-    float fcnma, fcnmb;
-    
-    fcnma = [Cnma floatValue];
-    fcnmb = [Cnmb floatValue];
-    
-    return [NSNumber numberWithFloat:sqrtf(fcnma*fcnma+fcnmb*fcnmb)];
-}
-
-- (void) setAngle:(NSNumber *) angle{
-    
-    float fcnma, fcnmb, magnitude;
-    
-    
-    fcnma = [Cnma floatValue];
-    fcnmb = [Cnmb floatValue];
-    
-    magnitude = sqrtf(fcnma*fcnma+fcnmb*fcnmb);
-
-        
-    Cnma = [NSNumber numberWithFloat: cosf([angle floatValue])*magnitude]; 
-    Cnmb = [NSNumber numberWithFloat: sinf([angle floatValue])*magnitude]; 
-    
-    
-}
-
-
-- (void) setMagnitude:(NSNumber *) magnitude{
-    
-    
-    float fcnma, fcnmb, angle;
-    
-    fcnma = [Cnma floatValue];
-    fcnmb = [Cnmb floatValue];
-    
-    if (fcnma == 0){
-        angle = 0;
-    }
-    else
-    angle = atanf(fcnmb/fcnma);
-
-    [Cnma release];
-    [Cnmb release];
-    
-    Cnma = [NSNumber numberWithFloat: cosf(angle)*[magnitude floatValue]]; 
-    Cnmb = [NSNumber numberWithFloat: sinf(angle)*[magnitude floatValue]]; 
-    
-}
+ 
+ float fcnma, fcnmb;
+ 
+ fcnma = [Cnma floatValue];
+ fcnmb = [Cnmb floatValue];
+ 
+ return [NSNumber numberWithFloat:sqrtf(fcnma*fcnma+fcnmb*fcnmb)];
+ }
+ 
+ - (void) setAngle:(NSNumber *) angle{
+ 
+ float fcnma, fcnmb, magnitude;
+ 
+ 
+ fcnma = [Cnma floatValue];
+ fcnmb = [Cnmb floatValue];
+ 
+ magnitude = sqrtf(fcnma*fcnma+fcnmb*fcnmb);
+ 
+ 
+ Cnma = [NSNumber numberWithFloat: cosf([angle floatValue])*magnitude]; 
+ Cnmb = [NSNumber numberWithFloat: sinf([angle floatValue])*magnitude]; 
+ 
+ 
+ }
+ 
+ 
+ - (void) setMagnitude:(NSNumber *) magnitude{
+ 
+ 
+ float fcnma, fcnmb, angle;
+ 
+ fcnma = [Cnma floatValue];
+ fcnmb = [Cnmb floatValue];
+ 
+ if (fcnma == 0){
+ angle = 0;
+ }
+ else
+ angle = atanf(fcnmb/fcnma);
+ 
+ [Cnma release];
+ [Cnmb release];
+ 
+ Cnma = [NSNumber numberWithFloat: cosf(angle)*[magnitude floatValue]]; 
+ Cnmb = [NSNumber numberWithFloat: sinf(angle)*[magnitude floatValue]]; 
+ 
+ }
  
  */
 

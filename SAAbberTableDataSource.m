@@ -26,7 +26,9 @@
 	aberrationArray = [probe aberrations];
 	
 }
-
+/**
+ * This dectermines the number of rows in the table by returning the number of abberations.
+ */
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView{
 	
 	return (NSInteger) [aberrationArray count]; 

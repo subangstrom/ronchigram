@@ -59,7 +59,7 @@
 		
 		numRows = rows;
 		numColumns = columns;
-				
+        
 	}
 	return self;
 	
@@ -70,7 +70,7 @@
 	
 	self = [super init];
     if (self) {
-	
+        
 		int rows = [copySize numRows];
 		int columns = [copySize numColumns];
 		matrix = (complex double*) malloc(sizeof(complex double)*rows*columns);
@@ -115,12 +115,13 @@
 - (void) setMatrixComplexValue: (complex double) complexNum atI: (int) i atJ: (int) j{
 	
 	matrix[i*numColumns+j] = complexNum;
-		
+    
 }
 - (void) setMatrixRealValue: (double) value atI: (int) i atJ: (int) j{
 	
 	matrix[i*numColumns+j] = value + I*0.00;
 }
+
 
 - (void) setMatrixImaglValue: (double) value atI: (int) i atJ: (int) j{
 	
@@ -182,7 +183,7 @@
 	return numColumns;
 }
 
-
+/** returns the real part of the matrix*/
 - (SAMatrix*) realPart{
 	
 	SAMatrix *realMatrix = [[SAMatrix alloc] initWithRows:numRows Columns:numColumns];
@@ -192,7 +193,7 @@
 	for (i = 0; i < numRows*numColumns; i++){
 		realValue = creal(matrix[i]);
 		[realMatrix setArrayValue:realValue AtIndex:i];
-
+        
 	}
 	
 	return realMatrix;
@@ -201,7 +202,7 @@
 - (SAMatrix*) imagPart{
 	
 	SAMatrix *imagMatrix = [[SAMatrix alloc] initWithRows:numRows Columns:numColumns];
-
+    
 	double imagValue;
 	int i;
 	for (i = 0; i < numRows*numColumns; i++){
@@ -212,7 +213,6 @@
 	
 	return imagMatrix;
 }
-
 
 
 
@@ -231,7 +231,7 @@
 - (double) maxtrixRealValueAtI:(int) i atJ: (int) j{
 	
 	return creal([self matrixComplexValueAtI: i atJ: j]);
-
+    
 	
 }
 
@@ -241,8 +241,8 @@
 	
 }
 
-				 
-				 
+
+
 
 #pragma mark Operations
 #pragma mark -
@@ -253,7 +253,7 @@
 	SAComplexMatrix *result = [[SAComplexMatrix alloc] initWithRows:numRows Columns:numColumns];
 	
 	[self elementMultiplyWith:elemul Result:result];
-
+    
 	return result;
 	
 }
@@ -268,7 +268,7 @@
 	NSNotification *note = [NSNotification notificationWithName:kSAMatrixDidChangeNotification object:self];
 	
 	[nc postNotification:note];
-			
+    
 }
 
 - (void) elementMultiplyWith: (SAComplexMatrix*) elemul Result:(SAComplexMatrix*) result{
@@ -358,7 +358,7 @@
 	for(i = 0; i < numRows*numColumns; i++){
 		[conjMatrix setComplexValue:conj(matrix[i]) atIndex:i];
 	}
-
+    
 	return conjMatrix;
 	
 }
@@ -371,7 +371,7 @@
 	for(i = 0; i < numRows*numColumns; i++){
 		[conjMatrix setComplexValue:conj(matrix[i]) atIndex:i];
 	}
-		
+    
 }
 
 
