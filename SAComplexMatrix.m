@@ -455,6 +455,24 @@
 	
 }
 
+-(SAMatrix*) abs{
+    
+    SAMatrix* absMatrix =[[SAMatrix alloc] initWithRows:numRows Columns:numColumns];
+    double newValue;
+    
+    for(int i=0; i<numRows; i++){
+        
+        for(int j=0; j<numColumns; j++){
+            
+            newValue = sqrt(pow([self maxtrixRealValueAtI:i atJ:j],2)+pow([self maxtrixImagValueAtI:i atJ:j],2));
+            [absMatrix setMatrixValue:newValue atI:i atJ:j]; 
+        }
+    }
+    
+    [absMatrix retain];
+    return absMatrix;
+}
+
 - (NSSize) size{
 	
 	NSSize matrixSize;

@@ -52,6 +52,7 @@
 // Convience method for reporting numRows*numColumns
 
 - (int) arraySize;
+-(SAMatrix*) abs;
 
 
 #pragma mark -

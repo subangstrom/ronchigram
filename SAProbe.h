@@ -13,17 +13,17 @@
 #import "SAFFTController.h"
 
 @interface SAProbe : NSObject {
-
+    
 	SAComplexMatrix *wavefunction;
 	SAComplexMatrix *aperture;
-
+    
 	SAFFTController *fftController;
 	
 	double realSize;
 	float apertureSize;
 	float lambda; 
 	BOOL isDirectSpace;
-
+    
 	//NSArray filled with aberrations
 	NSArray *aberrations;
 }

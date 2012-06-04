@@ -189,7 +189,7 @@
     
     
     NSMutableDictionary *aberrationsDict = [[NSMutableDictionary alloc] init];
-    
+    [aberrationsDict setObject:beamshift forKey:@"A0"];
     [aberrationsDict setObject:defocus forKey:@"C1"];
     [aberrationsDict setObject:cs forKey:@"C3"];
     [aberrationsDict setObject:coma forKey:@"B2"];
@@ -200,6 +200,9 @@
     [aberrationsDict setObject:fourfold forKey:@"A3"];
     [aberrationsDict setObject:fivefold forKey:@"A4"];
     [aberrationsDict setObject:sixfold forKey:@"A5"];
+    [aberrationsDict setObject:sixthcoma forKey:@"B6"];
+    [aberrationsDict setObject:sixththreelobe forKey:@"D6"];
+    [aberrationsDict setObject:sixthpentacle forKey:@"F6"];
     [aberrationsDict setObject:sevenfold forKey:@"A6"];
     [aberrationsDict setObject:seventhrosette forKey:@"R7"];
     [aberrationsDict setObject:seventhstar forKey:@"S7"];
@@ -282,10 +285,30 @@
 	threeFold.label = @"3 fold astigmatism";
     
 	//[coma setMin:-50 Max:50];
-	coma.label = @"Coma";
+	beamshift.label = @"Beam Shift";
+	coma.label = @"Second Order Coma";
+    thirdstar.label = @"Third Order Star";
+    fourfold.label = @"Fouth Fold Astigmatism";
+    fourthcoma.label = @"Fourth Order Coma";
+    fourththreelobe.label = @"Fourth Order Three Lobe";
+    fivefold.label = @"Five Fold Astigmatism";
+    fifthspherical.label = @"Fifth Order Spherical";
+    fifthstar.label = @"Fifth Order Star";
+    fifthrosette.label = @"Fifth Order Rosette";
+    sixfold.label = @"Sixth Fold Astigmatism";
+    sixthcoma.label = @"Sixth Coma";
+    sixththreelobe.label = @"Sixth Order Three Lobe";
+    sixthpentacle.label = @"Sixth Order Pentacle";
+    sevenfold.label = @"Seventh Fold Astigmatism";
+    seventhchaplet.label = @"Seventh Order Chaplet";
+    seventhspherical.label = @"Seventh Order Spherical";
+    seventhrosette.label = @"Seventh Order Rosette";
+    eightfold.label = @"Eighth Fold Astigmatism";
+    seventhstar.label = @"Seventh Order Star";
 	
 	[abController addObject:defocus];
-	
+	[abController addObject:beamshift];
+    
     [abController addObject:twoFold];
     
     [abController addObject:threeFold];
@@ -304,11 +327,15 @@
     [abController addObject:fifthrosette];
     [abController addObject:sixfold];
     
+    [abController addObject:sixthcoma];
+    [abController addObject:sixththreelobe];
+    [abController addObject:sixthpentacle];
+    [abController addObject:sevenfold];
     [abController addObject:seventhchaplet];
     [abController addObject:seventhspherical];
     [abController addObject:seventhrosette];
-    [abController addObject:eightfold];
     [abController addObject:seventhstar];
+	[abController addObject:eightfold];
 	
 	[defocus release];
 	[cs release];
@@ -427,7 +454,7 @@
 	
 	SAComplexMatrix *wave;
 	SAComplexMatrix *ap;
-	SAComplexMatrix *conjMatrix;
+    SAComplexMatrix *conjMatrix;
 	SAComplexMatrix *newComplexMatrix;
 	
 	if(isSliding == YES){
@@ -452,7 +479,6 @@
 			// Intensity distribution 
 			[conjMatrix elementMultiplyWith:ronchigram Result:newComplexMatrix];
 			newViewMatrix = [newComplexMatrix realPart];
-			//newViewMatrix = [[hrPotential potential] realPart];
 			
 			break;
             
@@ -507,6 +533,39 @@
             
 			break;
 			
+        case 3:
+            [probe calculateProbe];
+			//[self calculateRonchigram];
+            if(isSliding == YES){
+				[probe resizeProbeTo:pixels RealSize:realSize];
+                
+			}
+			else {
+				[probe resizeProbeTo:hrPixels RealSize:hrRealSize];
+			}
+            
+			conjMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
+			newComplexMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
+            SAComplexMatrix *convolutionImageMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
+            SAFFTController *fftPotController;
+            if(isSliding == YES){
+                fftPotController = [[SAFFTController alloc] initWithInput: [potential potential] Output: newComplexMatrix];
+                
+			}
+			else {
+                fftPotController = [[SAFFTController alloc] initWithInput: [hrPotential potential] Output: newComplexMatrix];
+			}
+            
+            SAFFTController *fftPotPrbController = [[SAFFTController alloc] initWithInput: conjMatrix Output: convolutionImageMatrix];
+			
+            [fftPotController forwardTransform];
+            [newComplexMatrix elementMultiplyWith:[probe aperture] Result: conjMatrix];
+            [fftPotPrbController reverseTransform];
+            
+            newViewMatrix = [convolutionImageMatrix abs];
+            
+            break;
+            
 		default:
 			break;
             
@@ -517,7 +576,6 @@
 	[newComplexMatrix release];
 	[conjMatrix release];
 	[newViewMatrix release];
-	
 	
 }
 

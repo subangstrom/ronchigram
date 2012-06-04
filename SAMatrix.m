@@ -192,6 +192,15 @@
 	}
     
 }
+- (void) log{
+    double newVal;
+    for(int i=0; i<numRows; i++){
+        for(int j=0; j<numColumns; j++){
+            newVal=log([self matrixValueAtI:i atJ:j]);
+            [self setMatrixValue:newVal atI:i atJ:j];
+        }
+    }
+}
 
 
 
@@ -321,10 +330,10 @@
      int i, j;
      
      for (i = 0; i< numRows; i++){
-        for (j = 0; j < numColumns; j++)
-        {
-            newMatrix[i][j]= [self matrixValueAtI:i atJ:j];
-        }
+     for (j = 0; j < numColumns; j++)
+     {
+     newMatrix[i][j]= [self matrixValueAtI:i atJ:j];
+     }
      }
 	 */	
 	return matrix;

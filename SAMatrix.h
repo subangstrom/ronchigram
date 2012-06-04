@@ -88,7 +88,7 @@
 - (SAMatrix*) matrixMultiplyWith: (SAMatrix*) matmul;
 - (SAMatrix*) addMatrix:(SAMatrix *) matAdd;
 - (void) scaleByValue:(double) scale;
-
+- (void) log;
 
 
 

@@ -100,9 +100,9 @@
 	float k[2];
 	float kMag;
 	
-	double chi1, chi2, chi;
-	double phi;
-	double complex chiExp;
+	float chi1, chi2, chi;
+	float phi;
+	float complex chiExp;
 	
 	[aperture zeroMatrixComplex];
 	
@@ -124,15 +124,16 @@
 	int numXpix = (int) (round(maxK/(1/realSize)));
 	int numYpix = (int) (round(maxK/(1/realSize)));
 	
-    
+    float complex lk0mlk1;
+    float input;
 	
-	for(i = iMid-numYpix; i < iMid + numYpix; i++){
-		for(j = jMid-numXpix; j < jMid + numXpix; j++){
+	for(i = iMid-numYpix; i < iMid + numYpix; i+=2){
+		for(j = jMid-numXpix; j < jMid + numXpix; j+=1){
 			
 			// Need to calculate the aperture as centered, then shift back later  as required for the FFT!
             
-			k[1] = (1.0f / realSize) * ((double) iMid-i);
-			k[0] = (1.0f / realSize) * ((double) j-jMid);
+			k[1] = (1.0f / realSize) * ((float) iMid-i);
+			k[0] = (1.0f / realSize) * ((float) j-jMid);
             
 			kMag = (k[0])*(k[0])+(k[1])*(k[1]);
             
@@ -145,7 +146,9 @@
 				//k[0] -= 0.005/lambda;
 				
 				chi = 0;
+                
 				
+                
 				// For each aberration, calculate the contributions to chi(k)
 				
 				for (SAAberration *aberration in aberrations) {
@@ -153,10 +156,14 @@
                     m = (float) [aberration m];
                     Cnma = (float) [[aberration Cnma] floatValue] * 10000;
                     Cnmb = (float)[[aberration Cnmb] floatValue] * 10000;
+                    
+                    lk0mlk1 = cpow(lambda*k[0]-I*lambda*k[1], m);
+                    
 					
 					// Sum up terms and calculate the complex value
                     
-					chi = creal( Cnma * cpow(lambda*k[0]-I*lambda*k[1], m)+I*Cnmb*cpow(k[0]*lambda-I*k[1]*lambda, m))*powf(k[0]*k[0]*lambda*lambda+k[1]*k[1]*lambda*lambda, (n-m+1.0) /2.0) / (n + 1.0) + chi;
+                    
+					chi = creal( Cnma * lk0mlk1+I*Cnmb*lk0mlk1)*powf(k[0]*k[0]*lambda*lambda+k[1]*k[1]*lambda*lambda, (n-m+1.0) /2.0) / (n + 1.0) + chi;
 				}
                 
 				
@@ -166,22 +173,30 @@
 					chi = 0;
                 
 				// Calculate aberration function
-				chiExp  = cexp(I * (2 * pi / lambda) * chi);   
+                //				chiExp  = cexpf(I * (2 * pi / lambda) * chi);
+                input=((2 * pi / lambda) * chi);
+                chiExp = cosf(input)-I*sinf(input);
+                //chiExp  = 1+(cpowf(input,2)/2)+(cpowf(input,3)/6)+(cpowf(input,4)/24)+(cpowf(input,5)/120);
 				[aperture setMatrixComplexValue:chiExp atI:i atJ:j];
-				
                 
 			}
 		}
-        
-	}
+    }
+    float complex upper,lower;
+    for(i = (iMid-numYpix)+1; i < iMid + numYpix; i+=2){
+        for(j = (jMid-numXpix); j < jMid + numXpix; j++){
+            upper = ([aperture matrixComplexValueAtI:(i+1) atJ:(j+1)]+[aperture matrixComplexValueAtI:(i+1) atJ:(j-1)]);
+            lower = ([aperture matrixComplexValueAtI:i-1 atJ:j+1]+[aperture matrixComplexValueAtI:i-1 atJ:j-1]);
+            chiExp = ((upper+lower)/4);
+            [aperture setMatrixComplexValue:chiExp atI:i atJ:j];
+        }
+    }
     
 	[fftController fftShift:aperture];
 	[fftController reverseTransform];
 	
 	double scaleFactor = 1.0/sqrt([self integratedIntensity]);
 	[wavefunction scaleByValue:scaleFactor];
-	
-	
 	
 }
 

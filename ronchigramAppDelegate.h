@@ -36,9 +36,9 @@
 	
 	SAPotential *potential;
 	SAPotential *hrPotential;
-
+    
 	SAProbe *probe;
-
+    
 	
 	SAComplexMatrix *ronchigram;
 	SAComplexMatrix *prbPotPrd;
@@ -58,8 +58,8 @@
 	IBOutlet NSArrayController *abController;
 	IBOutlet SAImageView *saView;
 	IBOutlet NSTableView *aberrationTable;
-
-
+    
+    
 }
 
 @property (assign) IBOutlet NSWindow *window;
