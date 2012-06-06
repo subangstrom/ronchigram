@@ -309,6 +309,16 @@
 	return numRows*numColumns;
 	
 }
+
+//- (SAMatrix *) subMatrixWith: (NSRange) range{
+//    SAMatrix *subMatrix =[[SAMatrix alloc] initWithRows:range.length Columns:range.length];
+//    for (int i=0; i<range.length; i++) {
+//        for (int j=0; j<range.length; j++)
+//            [subMatrix setMatrixValue:[matrix matrixValueAtI: range.location+i atJ: range.location+j] atI:i atJ:j];
+//    }
+//    return subMatrix;
+//}
+
 - (double) valueAtArrayIndex:(int) arrayIndex{
 	
 	return matrix[arrayIndex];

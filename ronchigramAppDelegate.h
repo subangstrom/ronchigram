@@ -31,6 +31,7 @@
 	
 	float apertureSize;
 	float lambda;
+    bool image;
 	
 	CGColorSpaceRef colorSpace;
 	

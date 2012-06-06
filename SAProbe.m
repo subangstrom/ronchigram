@@ -90,6 +90,9 @@
 
 #pragma mark Probe Calculation
 
+/**
+ *This calculates the probe. it calculates every other row and then fills in the uncalculated rows with an average of the two calculted ones. 
+ */
 - (void) calculateProbe{
 	
 	
@@ -101,7 +104,6 @@
 	float kMag;
 	
 	float chi1, chi2, chi;
-	float phi;
 	float complex chiExp;
 	
 	[aperture zeroMatrixComplex];
@@ -126,8 +128,16 @@
 	
     float complex lk0mlk1;
     float input;
+    int skip=1;
+    
+    if(fastCalc){
+        skip =2;
+    }
+    else {
+        skip = 1;
+    }
 	
-	for(i = iMid-numYpix; i < iMid + numYpix; i+=2){
+	for(i = iMid-numYpix; i < iMid + numYpix; i+=skip){
 		for(j = jMid-numXpix; j < jMid + numXpix; j+=1){
 			
 			// Need to calculate the aperture as centered, then shift back later  as required for the FFT!
@@ -173,7 +183,7 @@
 					chi = 0;
                 
 				// Calculate aberration function
-                //				chiExp  = cexpf(I * (2 * pi / lambda) * chi);
+                // chiExp  = cexpf(I * (2 * pi / lambda) * chi);
                 input=((2 * pi / lambda) * chi);
                 chiExp = cosf(input)-I*sinf(input);
                 //chiExp  = 1+(cpowf(input,2)/2)+(cpowf(input,3)/6)+(cpowf(input,4)/24)+(cpowf(input,5)/120);
@@ -182,16 +192,17 @@
 			}
 		}
     }
-    float complex upper,lower;
-    for(i = (iMid-numYpix)+1; i < iMid + numYpix; i+=2){
-        for(j = (jMid-numXpix); j < jMid + numXpix; j++){
-            upper = ([aperture matrixComplexValueAtI:(i+1) atJ:(j+1)]+[aperture matrixComplexValueAtI:(i+1) atJ:(j-1)]);
-            lower = ([aperture matrixComplexValueAtI:i-1 atJ:j+1]+[aperture matrixComplexValueAtI:i-1 atJ:j-1]);
-            chiExp = ((upper+lower)/4);
-            [aperture setMatrixComplexValue:chiExp atI:i atJ:j];
+    if (fastCalc){
+        float complex upper,lower;
+        for(i = (iMid-numYpix)+1; i < iMid + numYpix; i+=2){
+            for(j = (jMid-numXpix); j < jMid + numXpix; j++){
+                upper = ([aperture matrixComplexValueAtI:(i+1) atJ:(j+1)]+[aperture matrixComplexValueAtI:(i+1) atJ:(j-1)]);
+                lower = ([aperture matrixComplexValueAtI:i-1 atJ:j+1]+[aperture matrixComplexValueAtI:i-1 atJ:j-1]);
+                chiExp = ((upper+lower)/4);
+                [aperture setMatrixComplexValue:chiExp atI:i atJ:j];
+            }
         }
     }
-    
 	[fftController fftShift:aperture];
 	[fftController reverseTransform];
 	
@@ -200,6 +211,9 @@
 	
 }
 
+/**
+ *This returns the pixels of the probe as an NSSize.
+ */
 - (NSSize) probePixels{
 	
 	NSSize pixels;
@@ -211,6 +225,9 @@
 	
 }
 
+/**
+ *
+ */
 - (double) integratedIntensity{
 	
 	SAMatrix *intensityDist = [self intensityDistribution];
@@ -249,6 +266,9 @@
 	return aperture;
 }
 
+/**
+ *This resizes the probe. This is used when scrolling and calculating a low res potentinal.
+ */
 - (void) resizeProbeTo:(NSSize) pixSize RealSize: (NSSize) newRealSize{
 	
 	[wavefunction resizeToI:pixSize.height byJ:pixSize.width];
@@ -259,8 +279,10 @@
 	//[fftController updateInOut];
 	
 }
-
-
+#pragma mark Setters
+-(void) setScrollCalc: (BOOL) fast{
+    fastCalc = fast;
+}
 
 
 

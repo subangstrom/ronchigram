@@ -21,6 +21,9 @@
     ;
 }
 
+/**
+ *This changes the units from krivanek to haider and vice versa. 
+ */
 - (id)transformedValue:(id)value
 {
     float krivanekInput;

@@ -46,7 +46,9 @@
 	return self;
 }
 
-
+/**
+ *This is an initialization method. It is used to create a new aberration. 
+ */
 + (SAAberration*) aberrationWithN: (int) nVal 
 								M: (int) mVal 
 							 Cnma: (float) cnmaVal 
@@ -81,6 +83,9 @@
  
  }*/
 
+/**
+ *This sets the Cnma value it also calculates the values for both the Krivanek and Haider notations.
+ */
 - (void) setCnma:(NSNumber *)nCnma{
     
     Cnma = nCnma;
@@ -105,6 +110,9 @@
     
 }
 
+/**
+ *This sets the Cnmb value it also calculates the values for both the Krivanek and Haider notations.
+ */
 - (void) setCnmb:(NSNumber *)nCnmb{
     
     float fcnma, fcnmb;
@@ -184,7 +192,9 @@
  
  */
 
-
+/**
+ *This sets the min and max values for the aberations. 
+ */
 - (void) setMin: (float) newMin Max: (float) newMax{
 	
 	min = newMin;
@@ -208,8 +218,6 @@
 	[aberrDict setObject:coeff forKey:key];
 	
 }
-
-
 
 
 - (void) dealloc

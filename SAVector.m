@@ -122,13 +122,11 @@
 //	gsl_vector_mul(vector, multVector);
 }
 
-- (void) divide: (SAVector*) divVector{
-	
-	int incX =1;
-	int incY = 1;
-	
-//	gsl_vector_div(vector, divVector);
-}
+//- (void) divide: (SAVector*) divVector{
+//	
+//	
+////	gsl_vector_div(vector, divVector);
+//}
 
 - (double) dot: (SAVector*) dotVec{
 	

@@ -76,7 +76,7 @@
 
 - (void) addComplexMatrix:(SAComplexMatrix*) cMatAdd;
 - (void) addRealMatrix: (SAMatrix*) realMatrix;
-- (void) addImagMatrix: (SAMatrix*) imagMatrix;
+//- (void) addImagMatrix: (SAMatrix*) imagMatrix;
 
 - (void) scaleByValue:(double) scale;
 

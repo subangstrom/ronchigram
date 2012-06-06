@@ -27,12 +27,13 @@
         [NSValueTransformer setValueTransformer:noteTranform
                                         forName:@"NotationTransformation"];
 		
-		
 	}
 	return self;
 }
 
-
+/**
+ *This sets up all of the initial values for the program. This makes the fftController and sets up the window.
+ */
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 	
 	// Insert code here to initialize your application 
@@ -49,7 +50,8 @@
 	hrPixels = NSMakeSize(512, 512);
 	hrRealSize = NSMakeSize(size*2, size*2);
 	
-	isAmorphous = YES;
+	//isAmorphous = YES;
+    isAmorphous = NO;
 	isSliding = NO;
     
 	
@@ -98,7 +100,9 @@
  
  */
 
-
+/**
+ *This calculates the ronchigram. It takes the fourier transform of the wavefunction multiplied with the potential. 
+ */
 - (void) calculateRonchigram{
 	
 	SAComplexMatrix *wavefunction;
@@ -139,6 +143,11 @@
 	
 }
 
+/**
+ *This prepares the probe itself. It sets up all of the abberations and names them. It also sets the max and min for each abberation.
+ *
+ *We need to set the min and max to different valuse that will be determined by the microscope itself.
+ */
 - (void) prepareProbe{
     
 	
@@ -156,9 +165,7 @@
     
     // Third order aberrations
     SAAberration *cs =  [SAAberration aberrationWithN:3 M:0 Cnma:6 Cnmb:0];
-    NSMutableAttributedString *thirdsphericalHaider = [[NSMutableAttributedString alloc] initWithString:@"C3"];
     SAAberration *thirdstar = [SAAberration aberrationWithN:3 M:2 Cnma:0 Cnmb:0];
-    NSMutableAttributedString *thirdstarHaider = [[NSMutableAttributedString alloc] initWithString:@"S3"];
     
     SAAberration *fourfold = [SAAberration aberrationWithN:3 M:4 Cnma:0 Cnmb:0];
     
@@ -215,8 +222,6 @@
     [aberrationsDict setObject:fourthcoma forKey:@"B4"];
     
     
-    NSMutableDictionary *haiderLabels = [[NSMutableDictionary alloc] init];
-    
     NSDictionary *stringAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica" size:10], NSFontAttributeName,[NSNumber numberWithInt:-1], NSSuperscriptAttributeName,[NSNumber numberWithFloat:3], NSBaselineOffsetAttributeName, nil];
     
 	
@@ -244,7 +249,7 @@
         SAAberration *ab = [aberrationsDict objectForKey:key];
         
         NSMutableAttributedString *haid = [[NSMutableAttributedString alloc] initWithString:key];
-        NSMutableAttributedString *kriv = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"C%d,%d", ab.n, ab.m]];;
+        NSMutableAttributedString *kriv = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"C%d,%d", ab.n, ab.m]];
         
         [haid setAttributes:stringAttributes range:labelRange];
         [kriv setAttributes:stringAttributes range:krivRange];
@@ -375,8 +380,8 @@
 		[potential potentialWithAtoms:[hrPotential atoms]];
 		
 	}else{
-		[potential orderedPotentialWithSpacingA:2 SpacingB:2 Z:6];
-		[hrPotential orderedPotentialWithSpacingA:2 SpacingB:2 Z:6]; 
+		[potential orderedPotentialWithSpacingA:3 SpacingB:3 Z:6];
+		[hrPotential orderedPotentialWithSpacingA:3 SpacingB:3 Z:6]; 
 	}
 	
 }
@@ -432,7 +437,7 @@
 - (void) reloadViewWithMatrix: (SAMatrix*) matrixToView{
 	
 	[CATransaction begin];
-	[CATransaction setDisableActions:YES];
+	//[CATransaction setDisableActions:YES];
 	
 	CGImageRef matrixImage  = [self CGImageRefWithMatrix:matrixToView];
 	
@@ -449,7 +454,7 @@
 - (void) viewNeedsUpdate:(id) sender{
 	
 	NSInteger selected = [viewSelectSeg selectedSegment];
-	
+    
 	SAMatrix *newViewMatrix;
 	
 	SAComplexMatrix *wave;
@@ -459,9 +464,11 @@
 	
 	if(isSliding == YES){
 		[probe resizeProbeTo:pixels RealSize:realSize];
+        [probe setScrollCalc:TRUE];
 	}
 	else {
 		[probe resizeProbeTo:hrPixels RealSize:hrRealSize];
+        [probe setScrollCalc:FALSE];
 	}
 	
 	
@@ -534,27 +541,30 @@
 			break;
 			
         case 3:
+            isSliding = YES;
+            [probe resizeProbeTo:pixels RealSize:realSize];
             [probe calculateProbe];
-			//[self calculateRonchigram];
-            if(isSliding == YES){
-				[probe resizeProbeTo:pixels RealSize:realSize];
-                
-			}
-			else {
-				[probe resizeProbeTo:hrPixels RealSize:hrRealSize];
-			}
+			[self calculateRonchigram];
+            [probe setScrollCalc:FALSE];
+//            if(isSliding == YES){
+//				[probe resizeProbeTo:pixels RealSize:realSize];
+//                [probe setScrollCalc:FALSE];
+//			} else {
+//				[probe resizeProbeTo:hrPixels RealSize:hrRealSize];
+//			}
             
 			conjMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
 			newComplexMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
             SAComplexMatrix *convolutionImageMatrix = [[SAComplexMatrix alloc] initWithSameSizeAs:[probe wavefunction]];
             SAFFTController *fftPotController;
-            if(isSliding == YES){
-                fftPotController = [[SAFFTController alloc] initWithInput: [potential potential] Output: newComplexMatrix];
-                
-			}
-			else {
-                fftPotController = [[SAFFTController alloc] initWithInput: [hrPotential potential] Output: newComplexMatrix];
-			}
+            fftPotController = [[SAFFTController alloc] initWithInput: [potential potential] Output: newComplexMatrix];
+//            if(isSliding == YES){
+//                fftPotController = [[SAFFTController alloc] initWithInput: [potential potential] Output: newComplexMatrix];
+//                
+//			} else {
+//                fftPotController = [[SAFFTController alloc] initWithInput: [hrPotential potential] Output: newComplexMatrix];
+//                
+//			}
             
             SAFFTController *fftPotPrbController = [[SAFFTController alloc] initWithInput: conjMatrix Output: convolutionImageMatrix];
 			
@@ -563,7 +573,7 @@
             [fftPotPrbController reverseTransform];
             
             newViewMatrix = [convolutionImageMatrix abs];
-            
+            isSliding = NO;
             break;
             
 		default:
@@ -594,6 +604,7 @@
 		ab.Cnma=0;
 		ab.Cnmb=0;
 	}
+    
 	[probe setAberrations:[abController arrangedObjects]];
     
 	[self viewNeedsUpdate:nil];
@@ -623,6 +634,7 @@
 		case 2:
 			newSqSize=1024;
 			break;
+            
 		default:
 			break;
 	}
@@ -644,7 +656,7 @@
 	if(isAmorphous){
 		[hrPotential randomPotentialWithDensity:5 withZ:6];		
 	}else{
-		[hrPotential orderedPotentialWithSpacingA:2 SpacingB:2 Z:6]; 
+		[hrPotential orderedPotentialWithSpacingA:3 SpacingB:3 Z:6]; 
 	}
     
 	[self viewNeedsUpdate:nil];
@@ -680,13 +692,13 @@
 			case 0:
 				[abController add:nil];
 				[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-                
 				break;
+                
 			case 1:
 				[abController remove:nil];
 				[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];
-                
 				break;
+                
 		}
 		
 	}
@@ -731,7 +743,8 @@
 }
 
 - (void) sliderDone: (id) sender{
-	isSliding = NO;
+    
+        isSliding = NO;
 	
 	//[probe calculateProbe];
 	[nc postNotification:[NSNotification notificationWithName:kRonchigramNeedsUpdate object: nil]];

@@ -246,8 +246,8 @@
 			children = (
 				A557853F11DEAE8900052E31 /* SANegative.h */,
 				A557854011DEAE8900052E31 /* SANegative.m */,
-				A5C8124411ADEFEF00EBEB0D /* SAAberration.h */,
 				A5C8124511ADEFEF00EBEB0D /* SAAberration.m */,
+				A5C8124411ADEFEF00EBEB0D /* SAAberration.h */,
 			);
 			name = Aberrations;
 			sourceTree = "<group>";

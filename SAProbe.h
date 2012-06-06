@@ -23,6 +23,7 @@
 	float apertureSize;
 	float lambda; 
 	BOOL isDirectSpace;
+    BOOL fastCalc;
     
 	//NSArray filled with aberrations
 	NSArray *aberrations;
@@ -50,5 +51,6 @@
 - (SAComplexMatrix*) wavefunction;
 - (SAComplexMatrix*) aperture;
 - (void) resizeProbeTo:(NSSize) pixSize RealSize: (NSSize) realSize;
+-(void) setScrollCalc: (BOOL) fast;
 
 @end

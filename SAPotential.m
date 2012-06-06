@@ -27,6 +27,9 @@
 	return self;
 }
 
+/**
+ *This initializes the potential and subpotential arrays.
+ */
 - (id) initWithPixels: (NSSize) size RealSize: (NSSize) rSize {
 	
 	if (self != nil) {
@@ -42,10 +45,16 @@
 	return self;
 }
 
+/**
+ *This just returns the potential matrix. 
+ */
 - (SAComplexMatrix*) potential{
 	return potential;
 }
 
+/**
+ *This method is called to recalculate the potential. It stores a copy of the atoms coordinates for continued use.
+ */
 - (void) potentialWithAtoms: (NSArray*) inputAtoms{
 	
 	[inputAtoms retain];
@@ -59,6 +68,10 @@
 	
 }
 
+/*
+ *This is now unused code.
+ *This method calculated the potential matrix. it was cumbersome becasue it recalculted for each atom which was unnecessary. 
+ */
 - (void) calculatePotential{
 	
 	int numPots = [atoms count];
@@ -133,6 +146,11 @@
 		}
 	}
 }
+
+/**
+ *This calculates the subPotential array. This array is based on the potential of a single atom. It calculates the electrostatic potential for a single atom.
+ *This calls the fillPotentialMatrix method.
+ */
 - (void) calculateSubPotential{
    	
     
@@ -179,6 +197,10 @@
     }
     [self fillPotentialMatrix];			
 }
+
+/**
+ *This is used when looking at amorphous samples. It generates random centers for the atoms in the potential array.
+ */
 - (void) randomPotentialWithDensity: (float) density withZ: (int) atomicNumber{
 	
 	int numPots = roundf(density*realSize.width*realSize.height);
@@ -217,6 +239,7 @@
 }
 /**
  *This method lowers the quality of the display to speed up the program.
+ *THis is an unused method.
  */
 - (SAPotential *) downScaledVersionBy: (float) scaleFactor{
 	
@@ -271,6 +294,9 @@
 	[self potentialWithAtoms: newAtoms];
     
 }
+/**
+ *This method takes the subPotential matrix and fills the potential matrix with an instance of the sub matrix at each position.
+ */
 - (void) fillPotentialMatrix{
     
     int numPixX = [subpotential numColumns];
@@ -314,6 +340,9 @@
         }
     }
 }
+/**
+ * Not sure what this calculation is specifically for but it is used to calculate the electrostatic potential of the atoms. 
+ */
 - (double) projectedPotentialForZ: (int) atomicNumber atPoint: (NSPoint) point{
 	
 	
