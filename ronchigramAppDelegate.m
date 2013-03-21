@@ -393,6 +393,7 @@
 - (CGImageRef) CGImageRefWithMatrix:(SAMatrix*) matrixToImage{
 	
 	[matrixToImage retain];
+
 	
 	int arraySize = [matrixToImage arraySize];
 	
