@@ -14,9 +14,9 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <vecLib/clapack.h>
-#import <vecLib/cblas.h>
-
+//#import <vecLib/clapack.h>
+//#import <vecLib/cblas.h>
+#import <Accelerate/Accelerate.h>
 
 @interface SAMatrix : NSObject {
 	double *matrix;

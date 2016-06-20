@@ -11,7 +11,7 @@
 #import <complex.h>
 #import "constants.h"
 #import "fftw3.h"
-#import <omp.h>
+//#import <omp.h>
 
 
 @interface SAFFTController : NSObject {	

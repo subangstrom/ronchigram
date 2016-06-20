@@ -10,8 +10,8 @@
 
 #import <Cocoa/Cocoa.h>
 //#import <gsl_blas.h>
-#import <vecLib/clapack.h>
-#import <vecLib/cblas.h>
+//#import <vecLib/clapack.h>
+//#import <vecLib/cblas.h>
 
 @interface SAVector : NSObject <NSCopying>{
 	//gsl_vector *vector;

@@ -10,8 +10,9 @@
 #import "constants.h"
 #import "SAMatrix.h"
 #import "complex.h"
-#import <vecLib/clapack.h>
-#import <vecLib/cblas.h>
+//#import <vecLib/clapack.h>
+//#import <vecLib/cblas.h>
+#import <Accelerate/Accelerate.h>
 
 @interface SAComplexMatrix : NSObject {
 	
@@ -41,8 +42,7 @@
 
 // Report back the real or imag part of the matrix as a new real matrix
 
-- (SAMatrix *) realPart;
-- (SAMatrix *) imagPart;
+
 
 // Return the pointer to the matrix 1D array
 

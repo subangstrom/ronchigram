@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "42fea9fa-ed7c-4384-9b89-858cddd04f05++8675",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "42fea9fa-ed7c-4384-9b89-858cddd04f05++8675" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "899F52C1E1F1A4109DA3FB3A3EE2E0E6D632BD9B" : 0,
+    "42fea9fa-ed7c-4384-9b89-858cddd04f05++8675" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "60B4E6EC-E95A-42BB-88CC-561D74AED85E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "899F52C1E1F1A4109DA3FB3A3EE2E0E6D632BD9B" : "",
+    "42fea9fa-ed7c-4384-9b89-858cddd04f05++8675" : "ronchigram.xcodeproj\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : ".",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : ".",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/ronchigram.svn.sourceforge.net\/svnroot\/ronchigram",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "42fea9fa-ed7c-4384-9b89-858cddd04f05++8675"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:subangstrom\/ronchigram.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "899F52C1E1F1A4109DA3FB3A3EE2E0E6D632BD9B"
+    }
+  ]
+}
