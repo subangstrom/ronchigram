@@ -14,8 +14,6 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9F5EA54B1206972800A10EC3 /* libfftw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F5EA54A1206972800A10EC3 /* libfftw3.a */; };
 		9F5EA5501206974B00A10EC3 /* libfftw3.a in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F5EA54A1206972800A10EC3 /* libfftw3.a */; };
-		9F76C2C611F3E8E50011ED1E /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F76C2C511F3E8E50011ED1E /* Sparkle.framework */; };
-		9F76C2CF11F3E8E90011ED1E /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F76C2C511F3E8E50011ED1E /* Sparkle.framework */; };
 		A505D52E150EA92F00363A08 /* SANotationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A505D52D150EA92F00363A08 /* SANotationTransformer.m */; };
 		A5184C6711AB22E4001FD815 /* SAPotential.m in Sources */ = {isa = PBXBuildFile; fileRef = A5184C6611AB22E4001FD815 /* SAPotential.m */; };
 		A5184C7211AB248A001FD815 /* SAProbe.m in Sources */ = {isa = PBXBuildFile; fileRef = A5184C7111AB248A001FD815 /* SAProbe.m */; };
@@ -35,6 +33,9 @@
 		A5C4911711F8137100D14798 /* SAInspectorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AD7C3011F51E5500A5B09A /* SAInspectorDelegate.m */; };
 		A5C80FC511ADBE3C00EBEB0D /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C80FC411ADBE3C00EBEB0D /* Quartz.framework */; };
 		A5C8124611ADEFEF00EBEB0D /* SAAberration.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C8124511ADEFEF00EBEB0D /* SAAberration.m */; };
+		A5F585451D1973E4008EB7B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F585441D1973E4008EB7B7 /* Sparkle.framework */; };
+		A5F585461D197417008EB7B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F585441D1973E4008EB7B7 /* Sparkle.framework */; };
+		A5F585471D197417008EB7B7 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A5F585441D1973E4008EB7B7 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,7 +48,7 @@
 				9F5EA5501206974B00A10EC3 /* libfftw3.a in Copy Frameworks */,
 				A5AD7ACB11F4C90100A5B09A /* libfftw3.3.dylib in Copy Frameworks */,
 				A5AD7ACA11F4C8FB00A5B09A /* fftw3.h in Copy Frameworks */,
-				9F76C2CF11F3E8E90011ED1E /* Sparkle.framework in Copy Frameworks */,
+				A5F585471D197417008EB7B7 /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,7 +70,6 @@
 		8D1107320486CEB800E47090 /* ronchigram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ronchigram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F40F1CE11ACD48F00553CBF /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = /System/Library/Frameworks/vecLib.framework; sourceTree = "<absolute>"; };
 		9F5EA54A1206972800A10EC3 /* libfftw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfftw3.a; sourceTree = "<group>"; };
-		9F76C2C511F3E8E50011ED1E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		A505D52C150EA92F00363A08 /* SANotationTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SANotationTransformer.h; sourceTree = "<group>"; };
 		A505D52D150EA92F00363A08 /* SANotationTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SANotationTransformer.m; sourceTree = "<group>"; };
 		A5184C6511AB22E4001FD815 /* SAPotential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPotential.h; sourceTree = "<group>"; };
@@ -104,6 +104,7 @@
 		A5C8124411ADEFEF00EBEB0D /* SAAberration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAAberration.h; sourceTree = "<group>"; };
 		A5C8124511ADEFEF00EBEB0D /* SAAberration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAAberration.m; sourceTree = "<group>"; };
 		A5C813CB11AF19BC00EBEB0D /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		A5F585441D1973E4008EB7B7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,9 +113,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A54930EC1D189BBC00C49A9A /* Accelerate.framework in Frameworks */,
+				A5F585451D1973E4008EB7B7 /* Sparkle.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				A5F585461D197417008EB7B7 /* Sparkle.framework in Frameworks */,
 				A5C80FC511ADBE3C00EBEB0D /* Quartz.framework in Frameworks */,
-				9F76C2C611F3E8E50011ED1E /* Sparkle.framework in Frameworks */,
 				A5AD7A9711F4C7C000A5B09A /* libfftw3.3.dylib in Frameworks */,
 				9F5EA54B1206972800A10EC3 /* libfftw3.a in Frameworks */,
 			);
@@ -146,7 +148,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9F76C2C511F3E8E50011ED1E /* Sparkle.framework */,
+				A5F585441D1973E4008EB7B7 /* Sparkle.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -396,7 +398,8 @@
 				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -409,6 +412,7 @@
 				INFOPLIST_FILE = "ronchigram-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_OPENMP_FLAGS = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SDKROOT)/usr/local/lib/x86_64\"",
 					"\"$(SRCROOT)\"",
@@ -429,7 +433,8 @@
 				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -439,6 +444,7 @@
 				INFOPLIST_FILE = "ronchigram-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_OPENMP_FLAGS = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SDKROOT)/usr/local/lib/x86_64\"",
 					"\"$(SRCROOT)\"",
